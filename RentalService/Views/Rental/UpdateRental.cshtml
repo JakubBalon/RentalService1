@@ -1,0 +1,62 @@
+﻿@model RentalService.Models.ViewModels.RentalViewModel
+
+
+@{
+    ViewData["Title"] = "Rentals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Update</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateRental">
+           
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Rental.RentalId" />
+           
+            <div class="form-group">
+                <label asp-for="Rental.RentalPrice" class="control-label"></label>
+                <input asp-for="Rental.RentalPrice" class="form-control" />
+                <span asp-validation-for="Rental.RentalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rental.RentalStartTime" class="control-label"></label>
+                <input asp-for="Rental.RentalStartTime" class="form-control" />
+                <span asp-validation-for="Rental.RentalStartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rental.RentalEndTime" class="control-label"></label>
+                <input asp-for="Rental.RentalEndTime" class="form-control" />
+                <span asp-validation-for="Rental.RentalEndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Equipment</label>
+                @Html.DropDownList("Equipment", Model.Equipment, "Select a Equipment", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function SetSelectedEquipment(Equipment) {
+        var equipments = document.getElementById('Equipment'), equip, i;
+
+        for (i = 0; i < equipments.length; i++) {
+            equip = equipments[i];
+            if (equip.innerText === Equipment) {
+                equip.selected = "true";
+            }
+        }
+    }
+
+    var rentedEquipment = "@Html.Raw(Model.Rental.RentedEquipmentName)";
+
+    document.addEventListener('DOMContentLoaded', function () {
+        SetSelectedEquipment(rentedEquipment);
+    });
+</script>

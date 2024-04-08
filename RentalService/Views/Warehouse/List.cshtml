@@ -1,0 +1,21 @@
+﻿
+@model IEnumerable<RentalService.Models.Equipment>
+
+<h1>Lista sprzętu w magazynie</h1>
+
+
+    <ol>
+    @foreach (var equipment in Model)
+    {
+        <li>
+            @equipment.EquipmentName - @equipment.Category -
+            <a href ="@Url.Action("Details","Warehouse", new {Id = equipment.Id})">Szczegóły</a>
+            @using (Html.BeginForm("Delete","Warehouse", FormMethod.Post))
+            {
+                <input type="hidden" name="id" value="@equipment.Id" />  // Nadaję inputowi name aby metoda Delete w kontrolerze mogła go przyjąć jako parametr
+                <button type="submit">Usuń</button>
+            }
+        </li>
+    }
+
+    </ol>

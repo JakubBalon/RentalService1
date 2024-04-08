@@ -1,0 +1,62 @@
+﻿
+@model IEnumerable<RentalService.Models.Rental>
+
+@{
+    ViewData["Title"] = "ViewRentals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Rentals</h1>
+
+@if (ViewData["Alert"] != null)
+            {
+                <h3>@ViewData["Alert"]</h3>
+            }
+
+<p>
+    <a asp-action="CreateRental">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RentedEquipmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalStartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalEndTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @Html.DisplayFor(modelItem => item.RentedEquipmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalStartTime)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.RentalEndTime)
+            </td>
+            <td>
+                <a asp-action="UpdateRental" asp-route-id="@item.RentalId">Edit</a> |
+                <a asp-action="ViewRental" asp-route-id="@item.RentalId">Details</a> |
+                <a asp-action="DeleteRental" asp-route-id="@item.RentalId">Delete</a>
+            </td>
+        </tr>
+        }
+        
+
+    </tbody>
+</table>

@@ -1,0 +1,28 @@
+﻿@model RentalService.Models.Rental
+
+
+
+
+
+@{
+    ViewData["Title"] = "Rentals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Rentals</h1>
+
+<p>
+    <a asp-action="Create">Create new</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.RentedEquipment)</th>
+         <!--Client-->
+            <th>@Html.DisplayNameFor(model => model.RentalStartTime)</th>
+            <th>@Html.DisplayNameFor(model => model.RentalEndTime)</th>
+
+        </tr>
+    </thead>
+</table>

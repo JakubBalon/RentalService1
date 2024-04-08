@@ -1,0 +1,19 @@
+﻿@model RentalService.Models.Equipment
+@{
+    ViewData["Title"] = "Create Equipment";
+}
+
+
+<h1>Create Equipment</h1>
+
+@using (Html.BeginForm("CreateEquipment", "Warehouse", FormMethod.Post))
+{
+    @Html.ValidationSummary()
+
+    <p>Nazwa: </p> @Html.TextBoxFor(x => x.EquipmentName)
+    <p>Kategoria: </p> @Html.TextBoxFor(x => x.Category)
+    <p>Producent: </p> @Html.TextBoxFor(x => x.Producent)
+    
+    <button type =  "submit">Dodaj produkt do magazynu</button>
+    
+}

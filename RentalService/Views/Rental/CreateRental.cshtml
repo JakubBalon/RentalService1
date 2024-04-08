@@ -1,0 +1,48 @@
+﻿@model RentalService.Models.ViewModels.RentalViewModel
+
+
+
+
+
+@{
+    ViewData["Title"] = "Rentals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create Rental</h1>
+
+<p>
+    <a asp-action="CreateRental">Create new</a>
+</p>
+
+<div class="row">
+    <div class"col-md-4">
+        <form asp-action="CreateRental" id="create-rental">
+         
+            <div class="form-group" >
+                <label asp-for="Rental.RentalStartTime" class="control-label"></label>
+                <input asp-for="Rental.RentalStartTime" class="form-control" />
+                <span asp-for="Rental.RentalStartTime" class="text-danger"></span>
+            </div> 
+            <div class="form-group" >
+                <label asp-for="Rental.RentalEndTime" class="control-label"></label>
+                <input asp-for="Rental.RentalEndTime" class="form-control" />
+                <span asp-for="Rental.RentalEndTime" class="text-danger"></span>
+            </div> 
+            <div class="form-group" >
+                <label asp-for="Rental.RentalPrice" class="control-label"></label>
+                <input asp-for="Rental.RentalPrice" class="form-control" />
+                <span asp-for="Rental.RentalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group" >
+                <label>Equipment</label>
+                @Html.DropDownList("Equipment",Model.Equipment ,"Select a Equipment" , new{@class="form-control"} )
+            </div>
+
+            <div class=" form-group">
+                <input type ="submit" value="Create" class="btn btn-primary"/>
+            </div>
+
+        </form>
+    </div>
+</div>
