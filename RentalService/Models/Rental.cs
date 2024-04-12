@@ -41,6 +41,8 @@ namespace RentalService.Models
             RentedEquipment = updatedEquipment;
             RentedEquipmentName = updatedEquipment.EquipmentName;
         }
+
+      
         public Rental() { }
     }
 

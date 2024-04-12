@@ -7,6 +7,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RentalService.Models.ViewModels;
+using RentalService.Helpers;
 
 namespace RentalService.Services.Interfaces
 {
@@ -22,8 +23,8 @@ namespace RentalService.Services.Interfaces
         }
         public List<Rental> GetRentals()
         {
-            var rentals = _rentalDbContext.Rentals.ToList();
-            return rentals;
+           
+            return _rentalDbContext.Rentals.ToList();
         }
         public Rental GetRental(int id)
         {
@@ -61,7 +62,7 @@ namespace RentalService.Services.Interfaces
             _rentalDbContext.Rentals.Remove(rental);
             _rentalDbContext.SaveChanges();
         }
-
+       
         public List<Equipment> GetEquipments()
         {
             return _rentalDbContext.Equipments.ToList();
