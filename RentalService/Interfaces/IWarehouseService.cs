@@ -10,14 +10,10 @@ namespace RentalService.Interfaces
     public interface IWarehouseService
     {
 
-        int Save(Equipment equipment); // Zapisywanie equipmentu do bazy
-
-       // int Update(int id);
-
-        List<Equipment> GetEquipments();
-
-        Equipment GetEquipment(int id);
-
-        int Delete(int id);
+        public List<Equipment> GetEquipments(string userid);
+        public Equipment GetEquipment(int id);
+        public void CreateEquipment(IFormCollection form);
+        public void UpdateEquipment(IFormCollection form);
+        void DeleteEquipment(int id);
     }
 }

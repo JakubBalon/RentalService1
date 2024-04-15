@@ -9,37 +9,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create Equipment</h1>
+<h1>Update Equipment</h1>
 
-<p>
-    <a asp-action="CreateEquipment">Create new</a>
-</p>
+
 
 <div class="row">
-    <div class"col-md-4">
-        <form asp-action="CreateEquipment" id="create-equipment">
+    <div class="col-md-4">
+        <form asp-action="UpdateEquipment">
             @Html.HiddenFor(m => m.UserId)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Equipment.Id" />
+           
             <div class="form-group">
                 <label asp-for="Equipment.EquipmentName" class="control-label"></label>
                 <input asp-for="Equipment.EquipmentName" class="form-control" />
-                <span asp-for="Equipment.EquipmentName" class="text-danger"></span>
+                <span asp-validation-for="Equipment.EquipmentName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Equipment.Category" class="control-label"></label>
                 <input asp-for="Equipment.Category" class="form-control" />
-                <span asp-for="Equipment.Category" class="text-danger"></span>
+                <span asp-validation-for="Equipment.Category" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Equipment.Producent" class="control-label"></label>
                 <input asp-for="Equipment.Producent" class="form-control" />
-                <span asp-for="Equipment.Producent" class="text-danger"></span>
+                <span asp-validation-for="Equipment.Producent" class="text-danger"></span>
             </div>
-           
-
-            <div class=" form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
-
-        </form>
-    </div>
+</form>
 </div>

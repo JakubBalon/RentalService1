@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentalService;
 
@@ -11,9 +12,11 @@ using RentalService;
 namespace RentalService.Migrations
 {
     [DbContext(typeof(RentalDbContext))]
-    partial class RentalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240412103343_addUserColumn")]
+    partial class addUserColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,12 +178,7 @@ namespace RentalService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Equipments");
                 });
@@ -340,40 +338,21 @@ namespace RentalService.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RentalService.Models.Equipment", b =>
-                {
-                    b.HasOne("RentalService.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("RentalService.Models.Rental", b =>
                 {
                     b.HasOne("RentalService.Models.Equipment", "RentedEquipment")
-                        .WithMany("Rentals")
+                        .WithMany()
                         .HasForeignKey("RentedEquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RentalService.Models.User", "User")
-                        .WithMany("Rentals")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("RentedEquipment");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RentalService.Models.Equipment", b =>
-                {
-                    b.Navigation("Rentals");
-                });
-
-            modelBuilder.Entity("RentalService.Models.User", b =>
-                {
-                    b.Navigation("Rentals");
                 });
 #pragma warning restore 612, 618
         }

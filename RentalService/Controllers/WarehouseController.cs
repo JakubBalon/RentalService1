@@ -1,111 +1,132 @@
 ﻿
 
-using RentalService.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RentalService.Interfaces;
-using RentalService.Services.Interfaces;
+using RentalService.Models;
 using RentalService.Models.ViewModels;
+using System.Security.Claims;
 
 namespace RentalService.Controllers
 {
     [Authorize]
     public class WarehouseController : Controller
     {
-        private readonly IWarehouseService _warehouseService;
-        public WarehouseController(IWarehouseService warehouseService)
-        {
-            _warehouseService = warehouseService;
-        }
-        [HttpGet]
+        private readonly IWarehouseService _IWarehouseService;
+        private readonly UserManager<User> _usermanager;
 
+
+        public WarehouseController(IWarehouseService iWarehouseService, UserManager<User> usermanager)
+        {
+            _IWarehouseService = iWarehouseService;
+            _usermanager = usermanager;
+        }
         public IActionResult List()
         {
-            var equipments = _warehouseService.GetEquipments();
-            return View(equipments); //Pobieranie listy ekwipunku
+            if (TempData["Alert"] != null)
+            {
+                ViewData["Alert"] = TempData["Alert"];
+            }
+            return View(_IWarehouseService.GetEquipments(User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
+
+
 
         [HttpGet]
         public IActionResult CreateEquipment()
         {
-            return View();
-
+            return View(new EquipmentViewModel(User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
+
         [HttpPost]
-        public IActionResult CreateEquipment(Equipment equipment)
+
+        public async Task<IActionResult> CreateEquipment(EquipmentViewModel vm, IFormCollection form)
         {
 
-            if (!ModelState.IsValid)
+            try
             {
-                return View(equipment);
+                _IWarehouseService.CreateEquipment(form);
+                TempData["Alert"] = "Success! You have created new equipment" + form["EquipmentName"];
+
+                return RedirectToAction("List");
             }
+            catch (Exception ex)
+            {
+                ViewData["Alert"] = "An error occurred: " + ex.Message;
 
-            var id = _warehouseService.Save(equipment);
-
-            return RedirectToAction("List");
-
+                return View(vm);
+            }
 
         }
 
-      /*  [HttpGet]
 
-        public IActionResult Update(int id)
+        [HttpGet]
+
+
+        public IActionResult UpdateEquipment(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var @equipment = _warehouseService.Get((int)id);
+            var updatedEquipment = _IWarehouseService.GetEquipment((int)id);
 
-            if (@equipment == null)
+            if (updatedEquipment == null)
             {
                 return NotFound();
             }
+            var vm = new EquipmentViewModel(updatedEquipment, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            return View(@equipment);
+            return View(vm);
         }
-
-
         [HttpPost]
 
-        public async Task<IActionResult> Update(int id, Equipment equipment, IFormCollection form)
+        public async Task<IActionResult> UpdateEquipment(int id, IFormCollection form)
         {
-            if (id != equipment.Id)
-            {
-                return NotFound();
-            }
-
-
             try
             {
-                _warehouseService.Update(form);
-                TempData["Alert"] = "Success! You modified a rental for " + equipment.EquipmentName;
+                _IWarehouseService.UpdateEquipment(form);
+                TempData["Alert"] = "Success! You modified an rental for: " + form["Rental.RentedEquipmentName"];
+                return RedirectToAction(nameof(List));
             }
             catch (Exception ex)
             {
                 ViewData["Alert"] = "An error occurred: " + ex.Message;
+                var vm = new EquipmentViewModel(_IWarehouseService.GetEquipment(id), User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return View(vm);
             }
-            return View(equipment);
+
+
         }
-      */
-        
 
         [HttpGet]
 
-        public IActionResult Details(int id)
+        public IActionResult DeleteEquipment(int id)
         {
-            var equipment = _warehouseService.GetEquipment(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var equipment = _IWarehouseService.GetEquipment(id);
+
+
+            if (equipment == null)
+            {
+                return NotFound();
+            }
             return View(equipment);
         }
 
-        [HttpPost]
-
-        public IActionResult Delete(int id)
+        [HttpPost, ActionName("DeleteEquipment")]
+        public IActionResult DeleteEquipmentConfirmed(int id)
         {
-            _warehouseService.Delete(id);
+            _IWarehouseService.DeleteEquipment(id);
+            TempData["Alert"] = "You have deleted equipment succesfully";
+
             return RedirectToAction("List");
         }
     }
 }
-

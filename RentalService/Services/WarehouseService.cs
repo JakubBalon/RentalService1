@@ -12,59 +12,49 @@ namespace RentalService.Services
 {
     public class WarehouseService : IWarehouseService
     {
-        private readonly RentalDbContext _context;
+        private readonly RentalDbContext _rentalDbContext;
 
-        public WarehouseService(RentalDbContext context)
+        public WarehouseService(RentalDbContext rentalDbContext)
         {
-            _context = context;
+            _rentalDbContext = rentalDbContext;
         }
-
-
-
-
-        public int Delete(int id)
+        public List<Equipment> GetEquipments(string userid)
         {
-            var equipment = _context.Equipments.Find(id);
-            _context.Equipments.Remove(equipment);
-            _context.SaveChanges();
 
-            return id;
+            return _rentalDbContext.Equipments.Where(x => x.User.Id == userid).ToList();
         }
-
         public Equipment GetEquipment(int id)
         {
-            var equipment = _context.Equipments.Find(id);
-            return equipment;
+
+
+            return _rentalDbContext.Equipments.FirstOrDefault(x => x.Id == id);
+
         }
 
-        public List<Equipment> GetEquipments() //Pokazywanie tabeli z bazy danych w widoku
+
+
+        public void CreateEquipment(IFormCollection form)
         {
-            var equipments = _context.Equipments.ToList();
-            return equipments;
+            
+            var user = _rentalDbContext.Users.FirstOrDefault(x => x.Id == form["UserId"].ToString());
+            var newEquipment = new Equipment(form, user);
+            _rentalDbContext.Equipments.Add(newEquipment);
+            _rentalDbContext.SaveChanges();
         }
 
-        public int Save(Equipment equipment)
+        public void UpdateEquipment(IFormCollection form)
         {
-            _context.Add(equipment);
-
-            _context.SaveChanges();
-
-
-            return equipment.Id;
+            var user = _rentalDbContext.Users.FirstOrDefault(x => x.Id == form["UserId"].ToString());
+            int updatedEquipmentId = int.Parse(form["Equipment.Id"]);
+            var updatedEquipment = _rentalDbContext.Equipments.FirstOrDefault(x=>x.Id == updatedEquipmentId);
+            _rentalDbContext.Entry(updatedEquipment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _rentalDbContext.SaveChanges();
         }
-
-     /*   public void Update(int id)
+        public void DeleteEquipment(int id)
         {
-
-
-            var @equipment = _context.Get((int)id);
-
-            if (@equipment == null)
-            {
-                return NotFound();
-            }
-
-            return View(@equipment);
-        }*/
+            var equipment = _rentalDbContext.Equipments.Find(id);
+            _rentalDbContext.Equipments.Remove(equipment);
+            _rentalDbContext.SaveChanges();
+        }
     }
 }

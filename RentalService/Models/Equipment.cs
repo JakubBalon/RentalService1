@@ -1,6 +1,4 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RentalService.Models
 {
@@ -14,6 +12,35 @@ namespace RentalService.Models
         public string Category { get; set; }
         [Required(ErrorMessage = "Podanie producenta jest wymagane")]
         public string Producent { get; set; }
+
+        public User User { get; set; }
+
+        public virtual ICollection<Rental> Rentals { get; set; }
+
+
+
+        public Equipment(IFormCollection form, User user)
+        {
+            User = user;
+            EquipmentName = form["Equipment.EquipmentName"].ToString();
+            Category = form["Equipment.Category"].ToString();
+            Producent = form["Equipment.Producent"].ToString();
+
+
+
+        }
+        public void UpdateEquipment(IFormCollection form, User user)
+        {
+            User = user;
+            EquipmentName = form["Equipment.EquipmentName"].ToString();
+            Category = form["Equipment.Category"].ToString();
+            Producent = form["Equipment.Producent"].ToString();
+        }
+
+        public Equipment()
+        {
+
+        }
     }
 }
 

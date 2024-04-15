@@ -11,7 +11,9 @@ namespace RentalService.Models
     {
         [Key]
         public int RentalId { get; set; }
-        public  Equipment RentedEquipment { get; set; }
+        public virtual Equipment RentedEquipment { get; set; }
+
+        public virtual User User { get; set; }
 
         public string RentedEquipmentName { get; set; }
 
@@ -23,9 +25,9 @@ namespace RentalService.Models
 
 
 
-        public Rental(IFormCollection form, Equipment rentedEquipment)
+        public Rental(IFormCollection form, Equipment rentedEquipment,User user)
         {
-
+            User = user;
             RentalPrice = int.Parse(form["Rental.RentalPrice"].ToString());
             RentalStartTime = DateTime.Parse(form["Rental.RentalStartTime"].ToString());
             RentalEndTime = DateTime.Parse(form["Rental.RentalEndTime"].ToString());
@@ -33,8 +35,9 @@ namespace RentalService.Models
             RentedEquipmentName = rentedEquipment.EquipmentName;
             
         }
-        public void EditRental(IFormCollection form, Equipment updatedEquipment)
+        public void EditRental(IFormCollection form, Equipment updatedEquipment, User user)
         {
+            User = user;
             RentalPrice = int.Parse(form["Rental.RentalPrice"].ToString());
             RentalStartTime = DateTime.Parse(form["Rental.RentalStartTime"].ToString());
             RentalEndTime = DateTime.Parse(form["Rental.RentalEndTime"].ToString());

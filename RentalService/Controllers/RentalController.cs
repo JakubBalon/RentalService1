@@ -1,13 +1,11 @@
 ﻿
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Identity.Client;
 using RentalService.Interfaces;
 using RentalService.Models;
 using RentalService.Models.ViewModels;
-using RentalService.Services;
 using System.Security.Claims;
 
 namespace RentalService.Controllers
@@ -16,12 +14,13 @@ namespace RentalService.Controllers
     public class RentalController : Controller
     {
         private readonly IRentalService _IRentalService;
-        
+        private readonly UserManager<User> _usermanager;
 
 
-        public RentalController(IRentalService iRentalService)
+        public RentalController(IRentalService iRentalService, UserManager<User> usermanager)
         {
             _IRentalService = iRentalService;
+            _usermanager = usermanager;
         }
         public IActionResult ViewRentals()
         {
@@ -29,7 +28,7 @@ namespace RentalService.Controllers
             {
                 ViewData["Alert"] = TempData["Alert"];
             }
-            return View(_IRentalService.GetRentals());
+            return View(_IRentalService.GetRentals(User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         public IActionResult ViewRental(int id)
@@ -40,10 +39,11 @@ namespace RentalService.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult CreateRental()
         {
-            return View(new RentalViewModel(_IRentalService.GetEquipments()));
+            return View(new RentalViewModel(_IRentalService.GetEquipments(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpPost]
@@ -55,7 +55,7 @@ namespace RentalService.Controllers
             {
                 _IRentalService.CreateRental(form);
                 TempData["Alert"] = "Success! You have created new rental" + form["EquipmentName"];
-                
+
                 return RedirectToAction("ViewRentals");
             }
             catch (Exception ex)
@@ -65,7 +65,8 @@ namespace RentalService.Controllers
             }
 
         }
-        
+
+
         [HttpGet]
 
         public IActionResult UpdateRental(int? id)
@@ -81,7 +82,7 @@ namespace RentalService.Controllers
             {
                 return NotFound();
             }
-            var vm = new RentalViewModel(@rental, _IRentalService.GetEquipments());
+            var vm = new RentalViewModel(@rental, _IRentalService.GetEquipments(User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             return View(vm);
         }
@@ -90,7 +91,7 @@ namespace RentalService.Controllers
         public async Task<IActionResult> UpdateRental(int id, IFormCollection form)
         {
             try
-            {   
+            {
                 _IRentalService.UpdateRental(form);
                 TempData["Alert"] = "Success! You modified an rental for: " + form["Rental.RentedEquipmentName"];
                 return RedirectToAction(nameof(ViewRentals));
@@ -98,7 +99,7 @@ namespace RentalService.Controllers
             catch (Exception ex)
             {
                 ViewData["Alert"] = "An error occurred: " + ex.Message;
-                var vm = new RentalViewModel(_IRentalService.GetRental(id), _IRentalService.GetEquipments());
+                var vm = new RentalViewModel(_IRentalService.GetRental(id), _IRentalService.GetEquipments(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return View(vm);
             }
         }
@@ -113,7 +114,7 @@ namespace RentalService.Controllers
             }
 
             var @rental = _IRentalService.GetRental(id);
-            
+
 
             if (@rental == null)
             {

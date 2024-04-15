@@ -1,21 +1,62 @@
-﻿
-@model IEnumerable<RentalService.Models.Equipment>
+﻿@model IEnumerable<RentalService.Models.Equipment>
 
-<h1>Lista sprzętu w magazynie</h1>
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Equipments</h1>
+
+@if (ViewData["Alert"] != null)
+{
+    <h3>@ViewData["Alert"]</h3>
+}
+
+<p>
+    <a asp-action="CreateEquipment">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EquipmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producent)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EquipmentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producent)
+                </td>
+                <td>
+                    <a asp-action="UpdateEquipment" asp-route-id="@item.Id">Edit</a> |
+                    
+                    <a asp-action="DeleteEquipment" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
 
 
-    <ol>
-    @foreach (var equipment in Model)
-    {
-        <li>
-            @equipment.EquipmentName - @equipment.Category -
-            <a href ="@Url.Action("Details","Warehouse", new {Id = equipment.Id})">Szczegóły</a>
-            @using (Html.BeginForm("Delete","Warehouse", FormMethod.Post))
-            {
-                <input type="hidden" name="id" value="@equipment.Id" />  // Nadaję inputowi name aby metoda Delete w kontrolerze mogła go przyjąć jako parametr
-                <button type="submit">Usuń</button>
-            }
-        </li>
-    }
-
-    </ol>
+    </tbody>
+</table>
