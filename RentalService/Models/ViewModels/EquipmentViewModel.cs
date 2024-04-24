@@ -7,7 +7,7 @@
         public string EquipName { get; set; }
         public EquipmentViewModel(string userid)
         {
-            UserId = userid;
+            Equipment.User.Id = userid;
         }
 
         public EquipmentViewModel(Equipment updatedEquipment, string userid)

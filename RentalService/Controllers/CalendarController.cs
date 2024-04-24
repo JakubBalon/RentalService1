@@ -28,8 +28,8 @@ namespace RentalService.Controllers
         public IActionResult ViewCalendar()
         {
             var userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ViewData["Resources"] = JSONListHelper.GetResourcesListJSONString(_ICalendarService.GetEquipments(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            ViewData["Events"] = JSONListHelper.GetEventListJSONString(_ICalendarService.GetRentals(userid));
+            ViewData["Resources"] = JSONListHelper.GetResourcesListJSONString(_ICalendarService.GetEquipments());
+            ViewData["Events"] = JSONListHelper.GetEventListJSONString(_ICalendarService.GetRentals(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return View();
         }
 

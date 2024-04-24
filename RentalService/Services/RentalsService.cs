@@ -5,14 +5,16 @@ namespace RentalService.Services.Interfaces
 {
 
 
-    public class RentalService : IRentalService
+    public class RentalsService : IRentalService
     {
         private readonly RentalDbContext _rentalDbContext;
 
-        public RentalService(RentalDbContext rentalDbContext)
+        public RentalsService(RentalDbContext rentalDbContext)
         {
             _rentalDbContext = rentalDbContext;
         }
+
+
         public List<Rental> GetRentals(string userid)
         {
 
@@ -20,20 +22,25 @@ namespace RentalService.Services.Interfaces
         }
         public Rental GetRental(int id)
         {
-
-
             return _rentalDbContext.Rentals.FirstOrDefault(x => x.RentalId == id);
-
         }
-
-
-
         public void CreateRental(IFormCollection form)
         {
-            var rentedEquipment = form["Equipment"].ToString();
             var user = _rentalDbContext.Users.FirstOrDefault(x => x.Id == form["UserId"].ToString());
+            var rentedEquipment = form["Equipment"].ToString();
             var newrental = new Rental(form, _rentalDbContext.Equipments.FirstOrDefault(x => x.EquipmentName == rentedEquipment), user);
             _rentalDbContext.Rentals.Add(newrental);
+            _rentalDbContext.SaveChanges();
+        }
+
+        public void CreateSetRental(IFormCollection form)
+        {
+            var user = _rentalDbContext.Users.FirstOrDefault(x => x.Id == form["UserId"].ToString());
+            var rentedEquipment1 = form["Equipment"].ToString();
+            var rentedEquipment2 = form["Equipment"].ToString();
+            var rentedEquipment3 = form["Equipment"].ToString();
+            var newsetrental = new SetRental(form, _rentalDbContext.Equipments.FirstOrDefault(x => x.EquipmentName == rentedEquipment1), _rentalDbContext.Equipments.FirstOrDefault(x => x.EquipmentName == rentedEquipment2), _rentalDbContext.Equipments.FirstOrDefault(x => x.EquipmentName == rentedEquipment3), user);
+            _rentalDbContext.SetRentals.Add(newsetrental);
             _rentalDbContext.SaveChanges();
         }
         public void UpdateRental(IFormCollection form)
@@ -48,6 +55,8 @@ namespace RentalService.Services.Interfaces
             _rentalDbContext.SaveChanges();
 
         }
+
+
         public void DeleteRental(int id)
         {
             var rental = _rentalDbContext.Rentals.Find(id);
@@ -55,10 +64,11 @@ namespace RentalService.Services.Interfaces
             _rentalDbContext.SaveChanges();
         }
 
-        public List<Equipment> GetEquipments(string userid)
+        public List<Equipment> GetEquipments()
         {
-            return _rentalDbContext.Equipments.Where(x => x.User.Id == userid).ToList();
+            return _rentalDbContext.Equipments.ToList();
         }
+
         public Equipment GetEquipment(int id)
         {
             return _rentalDbContext.Equipments.Find(id);

@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
-using RentalService.Helpers;
 
 namespace RentalService.Models
 {
@@ -8,5 +7,6 @@ namespace RentalService.Models
     {
 
         public virtual ICollection<Rental> Rentals { get; set; }
+        public virtual ICollection<SetRental> SetRentals { get; set; }
     }
 }

@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using RentalService.Interfaces;
 using RentalService.Models;
 using RentalService.Models.ViewModels;
@@ -43,7 +44,7 @@ namespace RentalService.Controllers
         [HttpGet]
         public IActionResult CreateRental()
         {
-            return View(new RentalViewModel(_IRentalService.GetEquipments(User.FindFirstValue(ClaimTypes.NameIdentifier))));
+            return View(new RentalViewModel(_IRentalService.GetEquipments(), User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         [HttpPost]
@@ -82,7 +83,7 @@ namespace RentalService.Controllers
             {
                 return NotFound();
             }
-            var vm = new RentalViewModel(@rental, _IRentalService.GetEquipments(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            var vm = new RentalViewModel(@rental, _IRentalService.GetEquipments(), User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return View(vm);
         }
@@ -99,7 +100,7 @@ namespace RentalService.Controllers
             catch (Exception ex)
             {
                 ViewData["Alert"] = "An error occurred: " + ex.Message;
-                var vm = new RentalViewModel(_IRentalService.GetRental(id), _IRentalService.GetEquipments(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                var vm = new RentalViewModel(_IRentalService.GetRental(id), _IRentalService.GetEquipments(), User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return View(vm);
             }
         }

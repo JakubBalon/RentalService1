@@ -13,6 +13,8 @@ namespace RentalService.Models
         public int RentalId { get; set; }
         public virtual Equipment RentedEquipment { get; set; }
 
+        public int RentedEquipmentId {  get; set; }
+
         public virtual User User { get; set; }
 
         public string RentedEquipmentName { get; set; }

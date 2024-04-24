@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews();
 
 //Dependency injection
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
-builder.Services.AddScoped<IRentalService, RentalService.Services.Interfaces.RentalService>();
+builder.Services.AddScoped<IRentalService, RentalService.Services.Interfaces.RentalsService>();
 
 builder.Services.AddDbContext<RentalDbContext>(options =>
 {

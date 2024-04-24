@@ -1,5 +1,4 @@
 ﻿using RentalService.Models;
-using System.Linq;
 
 namespace RentalService.Helpers
 {
@@ -9,9 +8,9 @@ namespace RentalService.Helpers
         public static string GetEventListJSONString(List<Rental> events)
         {
             var rentalList = new List<Event>();
-            
 
-            foreach(var rental in events)
+
+            foreach (var rental in events)
             {
                 var myrental = new Event()
                 {
@@ -20,7 +19,7 @@ namespace RentalService.Helpers
                     end = rental.RentalEndTime,
                     extendedProps = rental.RentedEquipment.Id,
                     title = rental.RentedEquipmentName
-                   
+
                 };
                 rentalList.Add(myrental);
             }
@@ -31,7 +30,7 @@ namespace RentalService.Helpers
         {
             var resourceList = new List<Resource>();
 
-            foreach(var equipment in resources)
+            foreach (var equipment in resources)
             {
                 var resource = new Resource()
                 {
@@ -40,7 +39,7 @@ namespace RentalService.Helpers
                 };
                 resourceList.Add(resource);
             }
-                return System.Text.Json.JsonSerializer.Serialize(resourceList);
+            return System.Text.Json.JsonSerializer.Serialize(resourceList);
         }
     }
 
@@ -55,7 +54,7 @@ namespace RentalService.Helpers
 
         public string title { get; set; }
 
-       
+
 
     }
 
