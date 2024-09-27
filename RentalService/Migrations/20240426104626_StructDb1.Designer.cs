@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentalService;
 
@@ -11,9 +12,11 @@ using RentalService;
 namespace RentalService.Migrations
 {
     [DbContext(typeof(RentalDbContext))]
-    partial class RentalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240426104626_StructDb1")]
+    partial class StructDb1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,13 +214,6 @@ namespace RentalService.Migrations
                     b.Property<DateTime>("RentalStartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RentedEquipment2Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RentedEquipment2Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("RentedEquipmentId")
                         .HasColumnType("int");
 
@@ -229,8 +225,6 @@ namespace RentalService.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("RentalId");
-
-                    b.HasIndex("RentedEquipment2Id");
 
                     b.HasIndex("RentedEquipmentId");
 
@@ -372,12 +366,6 @@ namespace RentalService.Migrations
 
             modelBuilder.Entity("RentalService.Models.Rental", b =>
                 {
-                    b.HasOne("RentalService.Models.Equipment", "RentedEquipment2")
-                        .WithMany()
-                        .HasForeignKey("RentedEquipment2Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("RentalService.Models.Equipment", "RentedEquipment")
                         .WithMany()
                         .HasForeignKey("RentedEquipmentId")
@@ -389,8 +377,6 @@ namespace RentalService.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("RentedEquipment");
-
-                    b.Navigation("RentedEquipment2");
 
                     b.Navigation("User");
                 });

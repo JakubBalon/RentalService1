@@ -5,6 +5,7 @@ namespace RentalService.Models
 {
     public class Login
     {
+
         [Required]
         public string UserName { get; set; }
 

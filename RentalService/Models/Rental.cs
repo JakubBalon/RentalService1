@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 
@@ -13,21 +10,23 @@ namespace RentalService.Models
         public int RentalId { get; set; }
         public virtual Equipment RentedEquipment { get; set; }
 
-        public int RentedEquipmentId {  get; set; }
-
+        public List<Equipment> Equipments = new List<Equipment>();
+       
+        //public List<RentedEquipment> RentedEquipments = new List<RentedEquipment>();
+        public int RentedEquipmentId { get; set; }        
+        public string RentedEquipmentName { get; set; }       
         public virtual User User { get; set; }
-
-        public string RentedEquipmentName { get; set; }
-
         public double RentalLenght { get; set; }
         public double RentalPrice { get; set; }
         public DateTime RentalStartTime { get; set; }
         public DateTime RentalEndTime { get; set; }
+
         //public virtual Client Client { get; set; }
 
 
 
-        public Rental(IFormCollection form, Equipment rentedEquipment,User user)
+
+        public Rental(IFormCollection form, Equipment rentedEquipment, Equipment rentedEquipment2, User user)
         {
             User = user;
             RentalPrice = int.Parse(form["Rental.RentalPrice"].ToString());
@@ -35,7 +34,7 @@ namespace RentalService.Models
             RentalEndTime = DateTime.Parse(form["Rental.RentalEndTime"].ToString());
             RentedEquipment = rentedEquipment;
             RentedEquipmentName = rentedEquipment.EquipmentName;
-            
+ 
         }
         public void EditRental(IFormCollection form, Equipment updatedEquipment, User user)
         {
@@ -45,15 +44,16 @@ namespace RentalService.Models
             RentalEndTime = DateTime.Parse(form["Rental.RentalEndTime"].ToString());
             RentedEquipment = updatedEquipment;
             RentedEquipmentName = updatedEquipment.EquipmentName;
+
         }
 
-      
+
         public Rental() { }
     }
 
 
 }
 
-   
+
 
 

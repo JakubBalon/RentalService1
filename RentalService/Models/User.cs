@@ -7,6 +7,8 @@ namespace RentalService.Models
     {
 
         public virtual ICollection<Rental> Rentals { get; set; }
-        public virtual ICollection<SetRental> SetRentals { get; set; }
+
+        public virtual ICollection<Equipment> Equipments { get; set; }
+
     }
 }

@@ -8,7 +8,7 @@ namespace RentalService.Interfaces
         public List<Rental> GetRentals(string userid);
         public Rental GetRental(int id);
         public void CreateRental(IFormCollection form);
-        public void CreateSetRental(IFormCollection form);
+      
         public void UpdateRental(IFormCollection form);
         
         void DeleteRental(int id);

@@ -36,7 +36,7 @@ namespace RentalService.Models.ViewModels
         {
             UserId = userid;
             Rental = updatedRental;
-            EquipName = updatedRental.RentedEquipment.EquipmentName;
+            
 
 
             foreach (var equipment in equipments)

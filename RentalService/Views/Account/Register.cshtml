@@ -1,6 +1,6 @@
 ﻿@model RentalService.Models.Register
 
-<h1>Rejestracja</h1>
+<h1>Sign-in</h1>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
@@ -10,6 +10,6 @@
     <span>Email: </span> @Html.TextBoxFor(x => x.Email )
     <span>Hasło: </span> @Html.PasswordFor(x => x.Password )
 
-    <button type="submit">Zarejestruj</button>
+    <button type="submit">Sign-in</button>
 
 }

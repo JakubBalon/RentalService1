@@ -1,12 +1,7 @@
 ﻿
 
-using RentalService.Models;
-using Microsoft.EntityFrameworkCore;
 using RentalService.Interfaces;
-using RentalService.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+using RentalService.Models;
 
 namespace RentalService.Services
 {
@@ -35,7 +30,7 @@ namespace RentalService.Services
 
         public void CreateEquipment(IFormCollection form)
         {
-            
+
             var user = _rentalDbContext.Users.FirstOrDefault(x => x.Id == form["UserId"].ToString());
             var newEquipment = new Equipment(form, user);
             _rentalDbContext.Equipments.Add(newEquipment);
@@ -46,7 +41,7 @@ namespace RentalService.Services
         {
             var user = _rentalDbContext.Users.FirstOrDefault(x => x.Id == form["UserId"].ToString());
             int updatedEquipmentId = int.Parse(form["Equipment.Id"]);
-            var updatedEquipment = _rentalDbContext.Equipments.FirstOrDefault(x=>x.Id == updatedEquipmentId);
+            var updatedEquipment = _rentalDbContext.Equipments.FirstOrDefault(x => x.Id == updatedEquipmentId);
             _rentalDbContext.Entry(updatedEquipment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _rentalDbContext.SaveChanges();
         }

@@ -12,8 +12,8 @@ using RentalService;
 namespace RentalService.Migrations
 {
     [DbContext(typeof(RentalDbContext))]
-    [Migration("20240422112648_addSetRentals")]
-    partial class addSetRentals
+    [Migration("20240426120810_addSeconEquipmentOption")]
+    partial class addSeconEquipmentOption
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,11 +178,16 @@ namespace RentalService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RentalId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RentalId");
 
                     b.HasIndex("UserId");
 
@@ -209,6 +214,13 @@ namespace RentalService.Migrations
                     b.Property<DateTime>("RentalStartTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("RentedEquipment2Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RentedEquipment2Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RentedEquipmentId")
                         .HasColumnType("int");
 
@@ -221,72 +233,13 @@ namespace RentalService.Migrations
 
                     b.HasKey("RentalId");
 
+                    b.HasIndex("RentedEquipment2Id");
+
                     b.HasIndex("RentedEquipmentId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Rentals");
-                });
-
-            modelBuilder.Entity("RentalService.Models.SetRental", b =>
-                {
-                    b.Property<int>("SetRentalId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SetRentalId"));
-
-                    b.Property<int>("RentedEquipment1Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RentedEquipment2Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RentedEquipment3Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RentedEquipmentName1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RentedEquipmentName2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RentedEquipmentName3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SetRentalEndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("SetRentalLenght")
-                        .HasColumnType("float");
-
-                    b.Property<double>("SetRentalPrice")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("SetRentalStartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("setName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SetRentalId");
-
-                    b.HasIndex("RentedEquipment1Id");
-
-                    b.HasIndex("RentedEquipment2Id");
-
-                    b.HasIndex("RentedEquipment3Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SetRentals");
                 });
 
             modelBuilder.Entity("RentalService.Models.User", b =>
@@ -407,8 +360,12 @@ namespace RentalService.Migrations
 
             modelBuilder.Entity("RentalService.Models.Equipment", b =>
                 {
+                    b.HasOne("RentalService.Models.Rental", null)
+                        .WithMany("RentedEquipments")
+                        .HasForeignKey("RentalId");
+
                     b.HasOne("RentalService.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Equipments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -418,8 +375,14 @@ namespace RentalService.Migrations
 
             modelBuilder.Entity("RentalService.Models.Rental", b =>
                 {
+                    b.HasOne("RentalService.Models.Equipment", "RentedEquipment2")
+                        .WithMany()
+                        .HasForeignKey("RentedEquipment2Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RentalService.Models.Equipment", "RentedEquipment")
-                        .WithMany("Rentals")
+                        .WithMany()
                         .HasForeignKey("RentedEquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -430,49 +393,20 @@ namespace RentalService.Migrations
 
                     b.Navigation("RentedEquipment");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RentalService.Models.SetRental", b =>
-                {
-                    b.HasOne("RentalService.Models.Equipment", "RentedEquipment1")
-                        .WithMany()
-                        .HasForeignKey("RentedEquipment1Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RentalService.Models.Equipment", "RentedEquipment2")
-                        .WithMany()
-                        .HasForeignKey("RentedEquipment2Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RentalService.Models.Equipment", "RentedEquipment3")
-                        .WithMany()
-                        .HasForeignKey("RentedEquipment3Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RentalService.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("RentedEquipment1");
-
                     b.Navigation("RentedEquipment2");
 
-                    b.Navigation("RentedEquipment3");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RentalService.Models.Equipment", b =>
+            modelBuilder.Entity("RentalService.Models.Rental", b =>
                 {
-                    b.Navigation("Rentals");
+                    b.Navigation("RentedEquipments");
                 });
 
             modelBuilder.Entity("RentalService.Models.User", b =>
                 {
+                    b.Navigation("Equipments");
+
                     b.Navigation("Rentals");
                 });
 #pragma warning restore 612, 618
