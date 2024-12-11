@@ -12,11 +12,12 @@
     <h3>@ViewData["Alert"]</h3>
 }
 
-<p>
-    <a asp-action="CreateEquipment">Create New</a>
-</p>
+<button class="button">
+    <a asp-action="CreateEquipment" >Create New</a>
+</button>
+
 <table class="table">
-    <thead>
+    <thead class="table-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.EquipmentName)

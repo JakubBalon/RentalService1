@@ -73,10 +73,7 @@ namespace RentalService.Controllers
 
             var updatedEquipment = _IWarehouseService.GetEquipment((int)id);
 
-            if (updatedEquipment == null)
-            {
-                return NotFound();
-            }
+
             var vm = new EquipmentViewModel(updatedEquipment, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return View(vm);
@@ -88,7 +85,7 @@ namespace RentalService.Controllers
             try
             {
                 _IWarehouseService.UpdateEquipment(form);
-                TempData["Alert"] = "Success! You modified an rental for: " + form["Rental.RentedEquipmentName"];
+                TempData["Alert"] = "Success! You modified an equipment for: " + form["Rental.RentedEquipmentName"];
                 return RedirectToAction(nameof(List));
             }
             catch (Exception ex)

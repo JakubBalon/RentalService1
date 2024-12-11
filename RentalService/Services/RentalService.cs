@@ -32,6 +32,7 @@ namespace RentalService.Services.Interfaces
         {
             var rentedEquipment = form["Equipment"].ToString();
             var user = _rentalDbContext.Users.FirstOrDefault(x => x.Id == form["UserId"].ToString());
+            var rentedEquipment = form["Equipment"].ToString();
             var newrental = new Rental(form, _rentalDbContext.Equipments.FirstOrDefault(x => x.EquipmentName == rentedEquipment), user);
             _rentalDbContext.Rentals.Add(newrental);
             _rentalDbContext.SaveChanges();

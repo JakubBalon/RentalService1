@@ -6,11 +6,14 @@ namespace RentalService.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Podanie nazwy jest wymagane")]
+
+        [Required]
         public string EquipmentName { get; set; }
-        [Required(ErrorMessage = "Podanie kategorii jest wymagane")]
+
+        [Required]
         public string Category { get; set; }
-        [Required(ErrorMessage = "Podanie producenta jest wymagane")]
+
+        [Required]
         public string Producent { get; set; }
 
         public User User { get; set; }
@@ -29,9 +32,11 @@ namespace RentalService.Models
 
 
         }
-        public void UpdateEquipment(IFormCollection form, User user)
+        public void UpdateEquipment(Equipment updatedEquipment, IFormCollection form, User user)
         {
             User = user;
+            UserId = user.Id;
+            
             EquipmentName = form["Equipment.EquipmentName"].ToString();
             Category = form["Equipment.Category"].ToString();
             Producent = form["Equipment.Producent"].ToString();

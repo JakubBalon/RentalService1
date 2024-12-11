@@ -16,6 +16,8 @@
 </p>
 
 <div class="row">
+    @Html.ValidationSummary()
+
     <div class"col-md-4">
         <form asp-action="CreateRental" id="create-rental">
             @Html.HiddenFor(m => m.UserId)

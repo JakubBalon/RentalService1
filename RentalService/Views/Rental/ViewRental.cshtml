@@ -9,20 +9,46 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Rentals</h1>
+<h1>Rental</h1>
 
 
 
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.RentedEquipment)</th>
-         <!--Client-->
+            <th>@Html.DisplayNameFor(model => model.RentedEquipmentName)</th>
+            
+      
             <th>@Html.DisplayNameFor(model => model.RentalStartTime)</th>
             <th>@Html.DisplayNameFor(model => model.RentalEndTime)</th>
+            <th>@Html.DisplayNameFor(model => model.RentalPrice)</th>
 
         </tr>
     </thead>
+    <tbody>
+  
+        
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.RentedEquipmentName)
+                </td>
+                <td>
+                @Html.DisplayFor(model => model.RentalId)
+                </td>
+                <td>
+                @Html.DisplayFor(model => model.RentalStartTime)
+                </td>
+                <td>
+                @Html.DisplayFor(model => model.RentalEndTime)
+            </td>
+            <td>@Html.DisplayFor(model => model.RentalPrice)</td>
+                
+               
+            </tr>
+        
+
+
+    </tbody>
     
 
 
