@@ -16,13 +16,14 @@ namespace RentalService.Models.ViewModels
 
 
         //Create constructor
-        public RentalViewModel(List<Equipment> equipments)
+        public RentalViewModel(List<Equipment> equipments,string userid)
         {
 
-
+            UserId = userid;
 
             foreach (var equipment in equipments)
-            {
+                if (equipment.UserId == UserId)
+                {
 
 
                 Equipment.Add(new SelectListItem() { Text = equipment.EquipmentName });
@@ -31,14 +32,16 @@ namespace RentalService.Models.ViewModels
 
         }
         //Update constructor
-        public RentalViewModel(Rental updatedRental, List<Equipment> equipments)
+        public RentalViewModel(Rental updatedRental, List<Equipment> equipments, string userid)
         {
+            UserId = userid;
             Rental = updatedRental;
             EquipName = updatedRental.RentedEquipment.EquipmentName;
 
 
             foreach (var equipment in equipments)
-            {
+                if (equipment.UserId == UserId)
+                {
                 Equipment.Add(new SelectListItem() { Text = equipment.EquipmentName });
 
             }

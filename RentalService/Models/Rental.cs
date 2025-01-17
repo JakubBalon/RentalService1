@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 
@@ -24,6 +21,8 @@ namespace RentalService.Models
         public string RentedEquipmentName { get; set; }
         public virtual User User { get; set; }
 
+
+
         [Required]
         public double RentalLenght { get; set; }
 
@@ -33,7 +32,7 @@ namespace RentalService.Models
         public DateTime RentalStartTime { get; set; }
         [Required]
         public DateTime RentalEndTime { get; set; }
-        //public virtual Client Client { get; set; }
+        
 
 
 
@@ -41,6 +40,7 @@ namespace RentalService.Models
         public Rental(IFormCollection form, Equipment rentedEquipment, User user)
         {
             User = user;
+
             RentalPrice = int.Parse(form["Rental.RentalPrice"].ToString());
             RentalStartTime = DateTime.Parse(form["Rental.RentalStartTime"].ToString());
             RentalEndTime = DateTime.Parse(form["Rental.RentalEndTime"].ToString());
@@ -51,6 +51,7 @@ namespace RentalService.Models
         public void EditRental(IFormCollection form, Equipment updatedEquipment, User user)
         {
             User = user;
+
             RentalPrice = int.Parse(form["Rental.RentalPrice"].ToString());
             RentalStartTime = DateTime.Parse(form["Rental.RentalStartTime"].ToString());
             RentalEndTime = DateTime.Parse(form["Rental.RentalEndTime"].ToString());
@@ -58,13 +59,13 @@ namespace RentalService.Models
             RentedEquipmentName = updatedEquipment.EquipmentName;
         }
 
-      
+
         public Rental() { }
     }
 
 
 }
 
-   
+
 
 

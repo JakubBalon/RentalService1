@@ -10,7 +10,7 @@ namespace RentalService.Interfaces
         public void CreateRental(IFormCollection form);
         public void UpdateRental(IFormCollection form);
         void DeleteRental(int id);
-        public List<Equipment> GetEquipments(string userid);
+        public List<Equipment> GetEquipments();
         public Equipment GetEquipment(int id);
     }
 }

@@ -32,7 +32,7 @@ namespace RentalService.Services.Interfaces
         {
             var rentedEquipment = form["Equipment"].ToString();
             var user = _rentalDbContext.Users.FirstOrDefault(x => x.Id == form["UserId"].ToString());
-            var rentedEquipment = form["Equipment"].ToString();
+
             var newrental = new Rental(form, _rentalDbContext.Equipments.FirstOrDefault(x => x.EquipmentName == rentedEquipment), user);
             _rentalDbContext.Rentals.Add(newrental);
             _rentalDbContext.SaveChanges();
@@ -56,9 +56,9 @@ namespace RentalService.Services.Interfaces
             _rentalDbContext.SaveChanges();
         }
 
-        public List<Equipment> GetEquipments(string userid)
+        public List<Equipment> GetEquipments()
         {
-            return _rentalDbContext.Equipments.Where(x => x.User.Id == userid).ToList();
+            return _rentalDbContext.Equipments.ToList();
         }
         public Equipment GetEquipment(int id)
         {

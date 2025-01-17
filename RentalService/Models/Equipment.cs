@@ -18,6 +18,8 @@ namespace RentalService.Models
 
         public User User { get; set; }
 
+        public string UserId { get; set; }
+
         public virtual ICollection<Rental> Rentals { get; set; }
 
 
@@ -25,6 +27,7 @@ namespace RentalService.Models
         public Equipment(IFormCollection form, User user)
         {
             User = user;
+            UserId = user.Id;
             EquipmentName = form["Equipment.EquipmentName"].ToString();
             Category = form["Equipment.Category"].ToString();
             Producent = form["Equipment.Producent"].ToString();
@@ -36,7 +39,6 @@ namespace RentalService.Models
         {
             User = user;
             UserId = user.Id;
-            
             EquipmentName = form["Equipment.EquipmentName"].ToString();
             Category = form["Equipment.Category"].ToString();
             Producent = form["Equipment.Producent"].ToString();
